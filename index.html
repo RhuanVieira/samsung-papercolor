@@ -18,8 +18,9 @@ body{font-family:var(--font);background:var(--white);color:#111;min-height:100vh
 button{font-family:inherit;cursor:pointer}
 
 /* ========== HEADER PRETO ========== */
-.top{background:var(--black);color:var(--white);display:flex;align-items:center;gap:20px;padding:0px 32px;flex-wrap:wrap}
-.logo-placeholder{display:block;flex:none;height:290;width:auto;max-width:200px;object-fit: cover;object-position: center;}
+.top{min-height:64px;background:var(--black);color:var(--white);display:flex;align-items:center;gap:20px;padding:0 32px;flex-wrap:wrap}
+.brand-trigger{background:none;border:0;display:block;line-height:0;border-radius:6px;padding:0}
+.logo-placeholder{display:block;flex:none;width:144px;height:36px;max-width:none;object-fit:cover;object-position:center}
 .top h1{font-size:18px;font-weight:600;letter-spacing:.01em}
 .cloud{margin-left:auto;font-size:13px;color:#cfcfcf;display:flex;align-items:center;gap:8px}
 .dot{width:8px;height:8px;border-radius:50%;background:#3ddc97}
@@ -33,6 +34,7 @@ main{flex:1;display:grid;grid-template-columns:minmax(360px,1fr) minmax(420px,1.
 .card .hint{font-size:13px;color:var(--muted);margin-bottom:16px}
 label.f{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
 select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;background:#fff}
+textarea{width:100%;min-height:70px;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px;resize:vertical;background:#fff}
 
 /* clima */
 .weather{display:flex;align-items:center;gap:16px;margin-top:16px;background:#fff;border-radius:12px;padding:14px 16px}
@@ -90,8 +92,8 @@ input[type=range]{width:100%;accent-color:var(--blue);margin-top:14px}
 .p-title .l{font-weight:300;display:block}
 .p-sub{font-size:clamp(11px,1.9vw,14px);opacity:.85;line-height:1.35}
 .p-img{flex:1;min-height:0;border-radius:var(--prad);overflow:hidden;background:var(--pacc);display:grid;place-items:center;position:relative}
+.p-img .ph{padding:0 10%;text-align:center;font-weight:700;font-size:clamp(12px,2.4vw,18px);color:var(--pon);opacity:.7}
 .p-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05)}
-.p-img .em{font-size:clamp(60px,12vw,110px)}
 .p-img .off{position:absolute;left:4%;bottom:5%;background:var(--pacc);color:var(--pon);font-weight:800;font-size:clamp(12px,2.2vw,17px);padding:.45em 1em;border-radius:99px}
 .p-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
 .p-tag{font-size:clamp(7.5px,1.3vw,10px);line-height:1.45;opacity:.75;max-width:68%}
@@ -99,18 +101,56 @@ input[type=range]{width:100%;accent-color:var(--blue);margin-top:14px}
 .qr svg{display:block;width:100%;background:#fff;padding:4px;border-radius:6px}
 .note{font-size:12px;color:var(--muted);margin-top:16px;text-align:center}
 
+/* ========== POPUP DE AJUSTES (clique na logo) ========== */
+.mock-dialog{border:0;border-radius:16px;padding:0;width:min(400px,calc(100vw - 32px));margin:auto;box-shadow:0 24px 70px #0004}
+.mock-dialog::backdrop{background:#0007;backdrop-filter:blur(3px)}
+.mock-panel{padding:22px;background:#fff;border-radius:16px}
+.mock-panel header{display:flex;justify-content:space-between;align-items:start;gap:16px;margin-bottom:18px}
+.mock-panel h2{font-size:17px}
+.mock-panel p{font-size:13px;color:var(--muted);line-height:1.45;margin-top:4px}
+.dialog-close{border:0;background:#f2f2f2;border-radius:50%;height:30px;width:30px;font-size:18px;color:#333}.dialog-close:hover{background:#e7e7e7}
+
 /* ========== FOOTER PRETO ========== */
 footer{background:var(--black);color:#fff;padding:22px 32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;font-size:13px}
 footer a{color:#cfcfcf;text-decoration:none}footer a:hover{color:#fff;text-decoration:underline}
 footer .ver{font-weight:700;letter-spacing:.04em}footer .cp{margin-left:auto;color:#8d8d90}
+
+/* ========== RESPONSIVIDADE ========== */
+@media(max-width:980px){
+  main{grid-template-columns:minmax(0,1fr);gap:20px;padding:20px}
+  .right{padding:28px;align-items:center}
+}
+@media(max-width:680px){
+  .top{min-height:60px;padding:10px 18px;gap:12px;flex-wrap:nowrap}
+  .logo-placeholder{width:124px;height:31px}
+  .cloud{min-width:0;margin-left:auto;font-size:11px;line-height:1.35;text-align:right}
+  .cloud span:last-child{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  main{padding:14px;gap:14px}
+  .col{gap:14px}.card{padding:17px;border-radius:12px}
+  .weather{align-items:flex-start;flex-wrap:wrap;padding:13px;gap:10px}
+  .weather .t{font-size:27px}.weather .meta{flex:1;min-width:135px}
+  .weather .rule{margin-left:42px}
+  .drop{padding:17px}.presets{flex-direction:column;align-items:stretch}.presets .btn{width:100%}
+  .tokens{gap:8px}.right{padding:16px;border-radius:12px}.device{width:100%;padding:10px 10px 26px;border-radius:16px}
+  .note{margin-top:12px}.mock-panel{padding:18px}footer{padding:18px;gap:12px}.cp{margin-left:0!important;width:100%}
+}
+@media(max-width:430px){
+  .top{padding:9px 14px}.logo-placeholder{width:108px;height:28px}.cloud{font-size:10px}.dot{width:6px;height:6px}
+  main{padding:10px}.card{padding:15px}.card h2{font-size:16px}.metrics{grid-template-columns:1fr;gap:9px}.m{padding:15px}
+  .weather .rule{margin-left:0}.weather .meta{min-width:0}.p-title{font-size:clamp(22px,8.8vw,32px)}
+  .p-sub{font-size:11px}.p-img .off{font-size:11px;max-width:88%}.qr{min-width:47px}.p-tag{max-width:64%}
+  footer{font-size:12px;flex-direction:column;align-items:flex-start}.mock-dialog{width:calc(100vw - 20px)}
+}
 </style>
 </head>
 <body>
 
 <!-- ============ HEADER ============ -->
 <header class="top">
-  <!-- Insira sua logo: preencha o src -->
-  <img class="logo-placeholder" src="./img/EcoSync.png" alt="Logo Samsung">
+  <!-- Clique na logo para abrir os ajustes da demonstração -->
+  <button class="brand-trigger" id="mockSettings" type="button" aria-label="Abrir ajustes da demonstração">
+    <img class="logo-placeholder" src="./img/EcoSync.png" alt="Logo Samsung">
+  </button>
   <h1></h1>
   <div class="cloud"><span class="dot"></span><span id="cloudTxt">Samsung E-Paper 25" - Conectado (Cloud VXT)</span></div>
 </header>
@@ -130,29 +170,27 @@ footer .ver{font-weight:700;letter-spacing:.04em}footer .cp{margin-left:auto;col
         <div class="meta"><span id="wCond">Consultando...</span><br><span id="wStock"></span></div>
         <span class="rule" id="rule">--</span>
       </div>
-      <input type="range" id="temp" min="10" max="40" value="31" aria-label="Ajuste manual de temperatura">
-      <p class="hint" style="margin:6px 0 0">Ajuste manual para demonstrar as regras (sobrescreve o mock).</p>
-      <div class="switch-row">
-        <div><strong>Simular alerta de lote próximo ao vencimento</strong><small>Sobrepõe o clima: Promoção Relâmpago 40% OFF.</small></div>
-        <label class="sw"><input type="checkbox" id="expiry" aria-label="Alerta de vencimento"><span></span></label>
-      </div>
     </section>
 
     <section class="card">
       <h2>Morfologia de Brand &amp; Design AI</h2>
-      <p class="hint">A IA aprende paleta, tipografia, grid e estilo dos seus banners e aplica ao E-Paper.</p>
+      <p class="hint">A IA lê as cores do banner base e aplica ao E-Paper junto com a sua instrução.</p>
       <div class="drop" id="drop">
-        <p style="font-size:14px;margin-bottom:12px">Arraste banners da marca aqui</p>
-        <button class="btn" id="pick">Enviar Banners Base da Marca</button>
-        <input type="file" id="file" accept="image/*" multiple hidden>
+        <p style="font-size:14px;margin-bottom:4px">Arraste o banner base aqui</p>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px">A IA lê cores e contraste. A imagem não é colada no display.</p>
+        <button class="btn" id="pick" type="button">Enviar Banner Base</button>
+        <input type="file" id="file" accept="image/png,image/jpeg,image/webp" hidden>
         <div class="presets">
-          <button class="btn ghost" data-p="samsung">Preset: AppWeek Samsung</button>
-          <button class="btn ghost" data-p="verde">Preset: Varejo Verde</button>
+          <button class="btn ghost" type="button" data-p="samsung">Preset: AppWeek Samsung</button>
+          <button class="btn ghost" type="button" data-p="verde">Preset: Varejo Verde</button>
         </div>
       </div>
       <div class="ai-status" id="ai"><span style="color:var(--muted)">Nenhuma marca treinada. Usando layout padrão.</span></div>
       <div class="bar" id="bar"><i></i></div>
       <div class="tokens" id="tokens"></div>
+      <label class="f" for="instruction" style="margin-top:16px">Instruções para a IA</label>
+      <textarea id="instruction" placeholder="Ex.: fundo verde, tom premium, destaque a oferta."></textarea>
+      <button class="btn" id="send" type="button" style="margin-top:10px">Gerar banner para o display →</button>
     </section>
 
     <div class="metrics">
@@ -174,6 +212,23 @@ footer .ver{font-weight:700;letter-spacing:.04em}footer .cp{margin-left:auto;col
   </div>
 </main>
 
+<!-- ============ POPUP: AJUSTES DA DEMONSTRAÇÃO ============ -->
+<dialog class="mock-dialog" id="mockDialog" aria-labelledby="mockTitle">
+  <div class="mock-panel">
+    <header>
+      <div><h2 id="mockTitle">Ajustes da demonstração</h2><p>Controles locais para testar as regras automáticas.</p></div>
+      <button class="dialog-close" id="closeMock" type="button" aria-label="Fechar">×</button>
+    </header>
+    <label class="f" for="temp">Temperatura manual</label>
+    <input type="range" id="temp" min="10" max="40" value="31" aria-label="Ajuste manual de temperatura">
+    <p class="hint" style="margin:6px 0 0">Sobrescreve o clima mockado (regras: &gt;28°C quente, &lt;18°C frio).</p>
+    <div class="switch-row">
+      <div><strong>Simular alerta de lote próximo ao vencimento</strong><small>Sobrepõe o clima: Promoção Relâmpago 40% OFF.</small></div>
+      <label class="sw"><input type="checkbox" id="expiry" aria-label="Alerta de vencimento"><span></span></label>
+    </div>
+  </div>
+</dialog>
+
 <!-- ============ FOOTER ============ -->
 <footer>
   <span class="ver">EcoSync v2.5</span>
@@ -185,26 +240,28 @@ footer .ver{font-weight:700;letter-spacing:.04em}footer .cp{margin-left:auto;col
 /* =====================================================
    DADOS 100% MOCKADOS (sem APIs externas, sem chaves)
    ===================================================== */
+const W=f=>'https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f.replace(/ /g,'_'))+'?width=900'; // foto real (Wikimedia Commons)
+const U=id=>`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&crop=entropy&w=900&h=1125&q=82`; // enquadramento 4:5 do E-Paper
 const MOCK = {
   units:{
     sp: {name:'Loja Matriz',  city:'São Paulo/SP',       temp:31, cond:'Ensolarado', ico:'☀️', stock:'Estoque normal'},
     rj: {name:'Filial 01',    city:'Rio de Janeiro/RJ',  temp:36, cond:'Ensolarado', ico:'🌞', stock:'Estoque normal'},
     cwb:{name:'Filial 02',    city:'Curitiba/PR',        temp:14, cond:'Chuvoso',    ico:'🌧️', stock:'Estoque normal'}
   },
-  // Imagens Unsplash (URLs mockadas); se falharem, o card usa emoji + cor
+  // Fotos reais da internet (Wikimedia Commons); se uma falhar, tenta a próxima. Se todas falharem, fica a cor da marca
   campaigns:{
-    hot:{label:'Dia quente', chip:'Dia quente', emoji:'🍦', off:'Sorvetes a partir de R$ 4,99', acc:'#d6336c', qr:'vxt/hot',
-      t1:t=>`Calor de ${t}°C?`, t2:'Refresque-se com Sorvetes Kibon!', sub:'Sorvetes, picolés e hidratação no corredor 6.',
-      img:'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=800&q=70'},
-    mild:{label:'Clima ameno', chip:'Ofertas do dia', emoji:'🥑', off:'Hortifruti -15%', acc:'#2b8a3e', qr:'vxt/mild',
+    hot:{label:'Dia quente', chip:'Dia quente', off:'Picolés a partir de R$ 4,99', acc:'#d6336c', qr:'vxt/hot',
+      t1:t=>`Calor de ${t}°C?`, t2:'Refresque-se com Picolés Kibon!', sub:'Picolés de fruta e hidratação no corredor 6.',
+      imgs:[U('1744671137712-8a26dd451ec7')]},
+    mild:{label:'Clima ameno', chip:'Ofertas do dia', off:'Hortifruti -15%', acc:'#2b8a3e', qr:'vxt/mild',
       t1:t=>`${t}°C hoje.`, t2:'Ofertas do Dia: Hortifruti fresquinho', sub:'Frutas, legumes e verduras selecionados.',
-      img:'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=70'},
-    cold:{label:'Dia frio', chip:'Dia frio', emoji:'🍷', off:'Kit inverno R$ 39,90', acc:'#7b1e3a', qr:'vxt/cold',
+      imgs:[U('1540420773420-3366772f4999')]},
+    cold:{label:'Dia frio', chip:'Dia frio', off:'Kit inverno R$ 39,90', acc:'#7b1e3a', qr:'vxt/cold',
       t1:t=>`Só ${t}°C lá fora?`, t2:'Vinhos, chocolates e cafés', sub:'Monte seu kit e aqueça a tarde.',
-      img:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=70'},
-    urgent:{label:'Promoção relâmpago', chip:'Lote com vencimento próximo', emoji:'⏰', off:'40% OFF', acc:'#d6291f', qr:'vxt/flash',
+      imgs:[U('1610458034932-dc165f29499e')]},
+    urgent:{label:'Promoção relâmpago', chip:'Lote com vencimento próximo', off:'40% OFF', acc:'#d6291f', qr:'vxt/flash',
       t1:()=>'Promoção Relâmpago', t2:'40% OFF hoje!', sub:'Lote próximo ao vencimento. Leve hoje, evite o desperdício.',
-      img:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=70'}
+      imgs:[U('1515706886582-54c73c5eaf41')]}
   },
   // Morfologias "aprendidas" (simulação)
   morph:{
@@ -246,10 +303,16 @@ function pickCampaign(){
   const t=state.temp; return t>28?'hot':t<18?'cold':'mild';
 }
 
+/* Tenta a próxima foto da campanha; se acabarem, remove a tag e mantém a cor */
+function nextImg(img){
+  const c=MOCK.campaigns[img.dataset.k],i=+img.dataset.i+1;
+  if(i<c.imgs.length){img.dataset.i=i;img.src=c.imgs[i]}else img.remove();
+}
+
 /* ========== RENDER DO E-PAPER (com refresh de pigmento) ========== */
 function renderPoster(){
   const key=pickCampaign(), c=MOCK.campaigns[key], u=MOCK.units[state.unit], m=state.morph, t=state.temp;
-  const sig=[key,t,state.unit,m&&m.name,$('expiry').checked].join('|');
+  const sig=[key,t,state.unit,m&&(m.name+m.bg+m.acc),$('expiry').checked].join('|');
   if(sig===state.last) return; state.last=sig;
 
   const ep=$('epaper'); ep.classList.remove('refresh'); void ep.offsetWidth; ep.classList.add('refresh');
@@ -269,8 +332,7 @@ function renderPoster(){
       <span class="p-chip">${c.chip}</span>
       <h3 class="p-title"><span class="l">${c.t1(t)}</span>${c.t2}</h3>
       <p class="p-sub">${c.sub}</p>
-      <div class="p-img"><span class="em">${c.emoji}</span>
-        <img src="${c.img}" alt="" onerror="this.remove()"><span class="off">${c.off}</span></div>
+      <div class="p-img"><span class="ph">${c.label}</span><img src="${c.imgs[0]}" data-k="${key}" data-i="0" alt="${c.label}" referrerpolicy="no-referrer" onerror="nextImg(this)"><span class="off">${c.off}</span></div>
       <div class="p-foot">
         <div class="p-tag">Layout Autônomo • ${m?'Morfologia de Marca Aplicada':'Morfologia padrão'} • Local: ${u.city}</div>
         <div class="qr">${makeQR(c.qr+state.unit,m?'#1428a0':'#000')}</div>
@@ -314,18 +376,98 @@ function trainBrand(presetKey,fileName){
   tick();
 }
 
+/* ========== LEITURA DO BANNER BASE (canvas): extrai cores, NÃO exibe a imagem ========== */
+const hex=c=>'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('');
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const lum=h=>{const[r,g,b]=rgb(h);return(.299*r+.587*g+.114*b)/255};
+const mixH=(a,b,t)=>{const A=rgb(a),B=rgb(b);return hex(A.map((v,i)=>Math.round(v+(B[i]-v)*t)))};
+const swatches=a=>a.map(c=>`<i class="sw-c" style="background:${c}"></i>`).join('');
+
+function extractPalette(url){
+  return new Promise((res,rej)=>{
+    const im=new Image();
+    im.onload=()=>{
+      const S=48,cv=document.createElement('canvas');cv.width=cv.height=S;
+      const cx=cv.getContext('2d',{willReadFrequently:true});cx.drawImage(im,0,0,S,S);
+      const d=cx.getImageData(0,0,S,S).data,bk={};
+      for(let i=0;i<d.length;i+=4){ // agrupa pixels em baldes de cor (3 bits por canal)
+        if(d[i+3]<128)continue;
+        const o=bk[[d[i]>>5,d[i+1]>>5,d[i+2]>>5]]??={n:0,r:0,g:0,b:0};
+        o.n++;o.r+=d[i];o.g+=d[i+1];o.b+=d[i+2];
+      }
+      const list=Object.values(bk).sort((a,z)=>z.n-a.n).map(o=>[o.r,o.g,o.b].map(v=>Math.round(v/o.n)));
+      const pal=[];
+      for(const c of list){ // mantém só cores bem distintas entre si
+        if(pal.every(p=>Math.hypot(p[0]-c[0],p[1]-c[1],p[2]-c[2])>70))pal.push(c);
+        if(pal.length===4)break;
+      }
+      res(pal.map(hex));
+    };
+    im.onerror=rej;im.src=url;
+  });
+}
+
+function readBanner(file){
+  const bar=$('bar'),fill=bar.firstElementChild,url=URL.createObjectURL(file);
+  const steps=['Lendo pixels do banner base...','Extraindo paleta de cores...','Analisando contraste e composição...'];
+  const pal=extractPalette(url);pal.catch(()=>{});
+  bar.style.display='block';fill.style.width='0';$('tokens').style.display='none';state.base=null;
+  let i=0;
+  const tick=async()=>{
+    if(i<steps.length){$('ai').innerHTML=`<span>${steps[i]} <em style="color:var(--muted)">(${file.name})</em></span>`;fill.style.width=((++i)/steps.length*100)+'%';setTimeout(tick,600);return}
+    try{
+      const p=await pal;state.base={pal:p,name:file.name};
+      $('ai').innerHTML='<span class="badge-ok">✓ Banner lido</span> <span style="color:var(--muted)">Escreva a instrução e clique em Gerar.</span>';
+      $('tokens').style.display='flex';$('tokens').innerHTML=`<span>${swatches(p)}</span><span>Paleta extraída do banner base</span>`;
+    }catch(e){$('ai').innerHTML='<span style="color:var(--warn)">Não foi possível ler a imagem.</span>'}
+    URL.revokeObjectURL(url);setTimeout(()=>bar.style.display='none',400);
+  };
+  tick();
+}
+
+/* Combina paleta do banner + instrução em texto → tokens do E-Paper */
+function buildMorph(txt){
+  const t=txt.toLowerCase(),pal=state.base?state.base.pal:['#0a1233','#1428a0','#4a90ff'];
+  const NAMED={verde:'#287a4c',azul:'#1428a0',vermelho:'#c92a2a',roxo:'#6f3cc3',amarelo:'#f2c200',laranja:'#e8590c',rosa:'#d6336c'};
+  let bg=pal[0],acc=pal[1]||mixH(pal[0],'#ffffff',.45);
+  for(const[k,v]of Object.entries(NAMED))if(t.includes(k)){bg=v;break}
+  if(/premium|escuro|preto/.test(t))bg='#161616';
+  if(/claro|branco|clean|minimal/.test(t))bg='#f4f1e8';
+  if(Math.abs(lum(acc)-lum(bg))<.25)acc=lum(bg)<.5?mixH(bg,'#ffffff',.6):mixH(bg,'#000000',.6);
+  const fg=lum(bg)<.55?'#ffffff':'#111111',on=lum(acc)<.55?'#ffffff':'#111111';
+  return{name:'Banner base (IA)',bg,fg,acc,on,rad:'18px',font:'"SamsungOne","Inter",Arial,sans-serif',sw:[bg,acc,fg]};
+}
+
+function generateBanner(){
+  const txt=$('instruction').value;
+  if(!state.base&&!txt.trim()){$('ai').innerHTML='<span style="color:var(--warn)">Anexe um banner base ou escreva uma instrução.</span>';return}
+  $('ai').innerHTML='<span>Gerando layout com o banner base e a instrução...</span>';
+  setTimeout(()=>{
+    state.morph=buildMorph(txt);
+    $('ai').innerHTML='<span class="badge-ok">✓ Banner gerado: fundo do E-Paper atualizado</span>';
+    $('tokens').style.display='flex';$('tokens').innerHTML=`<span>${swatches(state.morph.sw)}</span><span>Fundo, destaque e texto aplicados</span>`;
+    renderPoster();
+  },700);
+}
+
 /* ========== EVENTOS ========== */
 Object.entries(MOCK.units).forEach(([k,u])=>$('unit').add(new Option(`${u.name} - ${u.city}`,k)));
 $('unit').onchange=e=>loadUnit(e.target.value);
 $('temp').oninput=e=>{state.temp=+e.target.value;updateWeatherUI();renderPoster()};
 $('expiry').onchange=()=>{updateWeatherUI();renderPoster()};
 $('pick').onclick=()=>$('file').click();
-$('file').onchange=e=>{if(e.target.files.length)trainBrand('samsung',e.target.files[0].name)};
+$('file').onchange=e=>{if(e.target.files.length)readBanner(e.target.files[0])};
+$('send').onclick=generateBanner;
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>trainBrand(b.dataset.p));
 const drop=$('drop');
 ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
-drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)trainBrand('samsung',f.name)});
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))readBanner(f)});
+
+/* ========== DIÁLOGO DE AJUSTES (clique na logo do header) ========== */
+$('mockSettings').onclick=()=>$('mockDialog').showModal();
+$('closeMock').onclick=()=>$('mockDialog').close();
+$('mockDialog').addEventListener('click',e=>{if(e.target===$('mockDialog'))$('mockDialog').close()});
 
 renderStats(); loadUnit('sp');
 </script>
