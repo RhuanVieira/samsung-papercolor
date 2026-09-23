@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samsung VXT • EcoSync Management</title>
+<style>
+/* ========== TOKENS (Design System Samsung) ========== */
+:root{
+  --white:#fff; --gray:#f4f4f4; --line:#e2e2e2; --black:#000;
+  --blue:#1428a0; --blue-2:#0278d5; --ok:#0a8f5b; --warn:#d6291f; --muted:#6b6b6b;
+  --font:"SamsungOne","Inter","Roboto","Helvetica Neue",Arial,sans-serif;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--white);color:#111;min-height:100vh;display:flex;flex-direction:column}
+:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+button{font-family:inherit;cursor:pointer}
+
+/* ========== HEADER PRETO ========== */
+.top{background:var(--black);color:var(--white);display:flex;align-items:center;gap:20px;padding:0px 32px;flex-wrap:wrap}
+.logo-placeholder{display:block;flex:none;height:290;width:auto;max-width:200px;object-fit: cover;object-position: center;}
+.top h1{font-size:18px;font-weight:600;letter-spacing:.01em}
+.cloud{margin-left:auto;font-size:13px;color:#cfcfcf;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#3ddc97}
+
+/* ========== LAYOUT ========== */
+main{flex:1;display:grid;grid-template-columns:minmax(360px,1fr) minmax(420px,1.1fr);gap:32px;padding:32px;max-width:1440px;width:100%;margin:0 auto}
+@media(max-width:980px){main{grid-template-columns:1fr;padding:20px}}
+.col{display:flex;flex-direction:column;gap:20px}
+.card{background:var(--gray);border-radius:var(--r);padding:22px}
+.card h2{font-size:17px;font-weight:700;margin-bottom:4px}
+.card .hint{font-size:13px;color:var(--muted);margin-bottom:16px}
+label.f{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;background:#fff}
+
+/* clima */
+.weather{display:flex;align-items:center;gap:16px;margin-top:16px;background:#fff;border-radius:12px;padding:14px 16px}
+.weather .ico{font-size:34px}
+.weather .t{font-size:34px;font-weight:700;letter-spacing:-.02em}
+.weather .meta{font-size:13px;color:var(--muted);line-height:1.5}
+.weather .rule{margin-left:auto;font-size:12px;font-weight:600;background:var(--blue);color:#fff;padding:6px 12px;border-radius:99px}
+input[type=range]{width:100%;accent-color:var(--blue);margin-top:14px}
+.switch-row{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);font-size:14px}
+.switch-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.sw{position:relative;width:50px;height:28px;flex:none}
+.sw input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:1}
+.sw span{position:absolute;inset:0;background:#c9c9c9;border-radius:99px;transition:.2s}
+.sw span::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+span{background:var(--warn)}
+.sw input:checked+span::after{transform:translateX(22px)}
+
+/* morfologia */
+.drop{border:2px dashed #b9b9b9;border-radius:12px;background:#fff;padding:22px;text-align:center;transition:.2s}
+.drop.over{border-color:var(--blue);background:#eef1ff}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:99px;padding:11px 22px;font-size:14px;font-weight:600}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.btn:hover{background:#0f1f80}.btn.ghost:hover{background:#eef1ff}
+.presets{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.ai-status{margin-top:14px;font-size:13px;min-height:22px}
+.bar{height:4px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden;display:none}
+.bar i{display:block;height:100%;width:0;background:var(--blue);transition:width .6s}
+.badge-ok{display:inline-block;background:#e3f6ed;color:var(--ok);font-weight:700;font-size:12px;padding:5px 12px;border-radius:99px}
+.tokens{display:none;margin-top:12px;gap:14px;align-items:center;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.sw-c{display:inline-block;width:22px;height:22px;border-radius:50%;border:1px solid #0002;margin-right:4px;vertical-align:middle}
+
+/* métricas */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.m{background:var(--gray);border-radius:var(--r);padding:18px}
+.m .l{font-size:12px;color:var(--muted)}
+.m .v{font-size:28px;font-weight:700;margin:6px 0;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.m .v small{font-size:14px;color:var(--muted);font-weight:500;margin-left:4px}
+.m .b{font-size:11px;font-weight:600;background:#e3f6ed;color:var(--ok);padding:3px 9px;border-radius:99px;display:inline-block}
+.m.busy .v{color:#c77700}.m.busy .b{background:#fff1d6;color:#c77700}
+.log{font-size:12px;color:var(--muted);min-height:34px}
+
+/* ========== CHASSI E-PAPER ========== */
+.right{align-items:center;justify-content:flex-start;background:var(--gray);border-radius:var(--r);padding:32px}
+.device{width:min(100%,540px);background:linear-gradient(145deg,#2b2b2d,#111);border-radius:20px;padding:14px 14px 30px;position:relative;box-shadow:0 24px 50px #0003}
+.device .brand{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);color:#8d8d90;font-size:9px;letter-spacing:.4em;font-weight:700}
+.epaper{aspect-ratio:4/5;background:#fdfcf8;border-radius:4px;overflow:hidden;position:relative;
+  background-image:radial-gradient(rgba(0,0,0,.05) .6px,transparent .7px);background-size:3px 3px}
+.poster{position:absolute;inset:0;display:flex;flex-direction:column;padding:6%;gap:3.5%;
+  background:var(--pbg);color:var(--pfg);font-family:var(--pfont)}
+.epaper.refresh .poster{animation:pigment .5s steps(1,end) both}
+@keyframes pigment{0%{filter:invert(1) contrast(1.4)}30%{opacity:.15;filter:invert(1)}60%{opacity:.6;filter:grayscale(1) contrast(2)}100%{opacity:1;filter:none}}
+@media(prefers-reduced-motion:reduce){.epaper.refresh .poster{animation:none}}
+.p-chip{align-self:flex-start;font-size:clamp(9px,1.7vw,12px);font-weight:700;background:var(--pacc);color:var(--pon);padding:.4em 1em;border-radius:99px}
+.p-title{font-size:clamp(22px,4.8vw,38px);line-height:1.08;letter-spacing:-.02em;font-weight:800}
+.p-title .l{font-weight:300;display:block}
+.p-sub{font-size:clamp(11px,1.9vw,14px);opacity:.85;line-height:1.35}
+.p-img{flex:1;min-height:0;border-radius:var(--prad);overflow:hidden;background:var(--pacc);display:grid;place-items:center;position:relative}
+.p-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05)}
+.p-img .em{font-size:clamp(60px,12vw,110px)}
+.p-img .off{position:absolute;left:4%;bottom:5%;background:var(--pacc);color:var(--pon);font-weight:800;font-size:clamp(12px,2.2vw,17px);padding:.45em 1em;border-radius:99px}
+.p-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.p-tag{font-size:clamp(7.5px,1.3vw,10px);line-height:1.45;opacity:.75;max-width:68%}
+.qr{width:19%;min-width:60px}
+.qr svg{display:block;width:100%;background:#fff;padding:4px;border-radius:6px}
+.note{font-size:12px;color:var(--muted);margin-top:16px;text-align:center}
+
+/* ========== FOOTER PRETO ========== */
+footer{background:var(--black);color:#fff;padding:22px 32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;font-size:13px}
+footer a{color:#cfcfcf;text-decoration:none}footer a:hover{color:#fff;text-decoration:underline}
+footer .ver{font-weight:700;letter-spacing:.04em}footer .cp{margin-left:auto;color:#8d8d90}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="top">
+  <!-- Insira sua logo: preencha o src -->
+  <img class="logo-placeholder" src="./img/EcoSync.png" alt="Logo Samsung">
+  <h1></h1>
+  <div class="cloud"><span class="dot"></span><span id="cloudTxt">Samsung E-Paper 25" - Conectado (Cloud VXT)</span></div>
+</header>
+
+<main>
+  <!-- ============ COLUNA ESQUERDA ============ -->
+  <div class="col">
+
+    <section class="card">
+      <h2>Clima &amp; Localização</h2>
+      <p class="hint">Dados climáticos simulados localmente (mock API).</p>
+      <label class="f" for="unit">E-Paper instalado em</label>
+      <select id="unit"></select>
+      <div class="weather">
+        <span class="ico" id="wIco">☀️</span>
+        <div><div class="t"><span id="wT">--</span>°C</div></div>
+        <div class="meta"><span id="wCond">Consultando...</span><br><span id="wStock"></span></div>
+        <span class="rule" id="rule">--</span>
+      </div>
+      <input type="range" id="temp" min="10" max="40" value="31" aria-label="Ajuste manual de temperatura">
+      <p class="hint" style="margin:6px 0 0">Ajuste manual para demonstrar as regras (sobrescreve o mock).</p>
+      <div class="switch-row">
+        <div><strong>Simular alerta de lote próximo ao vencimento</strong><small>Sobrepõe o clima: Promoção Relâmpago 40% OFF.</small></div>
+        <label class="sw"><input type="checkbox" id="expiry" aria-label="Alerta de vencimento"><span></span></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Morfologia de Brand &amp; Design AI</h2>
+      <p class="hint">A IA aprende paleta, tipografia, grid e estilo dos seus banners e aplica ao E-Paper.</p>
+      <div class="drop" id="drop">
+        <p style="font-size:14px;margin-bottom:12px">Arraste banners da marca aqui</p>
+        <button class="btn" id="pick">Enviar Banners Base da Marca</button>
+        <input type="file" id="file" accept="image/*" multiple hidden>
+        <div class="presets">
+          <button class="btn ghost" data-p="samsung">Preset: AppWeek Samsung</button>
+          <button class="btn ghost" data-p="verde">Preset: Varejo Verde</button>
+        </div>
+      </div>
+      <div class="ai-status" id="ai"><span style="color:var(--muted)">Nenhuma marca treinada. Usando layout padrão.</span></div>
+      <div class="bar" id="bar"><i></i></div>
+      <div class="tokens" id="tokens"></div>
+    </section>
+
+    <div class="metrics">
+      <div class="m" id="powerCard"><div class="l">Consumo energético atual</div><div class="v"><span id="watts">0.00</span><small>W</small></div><span class="b" id="pBadge">Tinta eletrônica estática</span></div>
+      <div class="m"><div class="l">Folhas de papel economizadas</div><div class="v"><span id="paper">0</span><small>folhas</small></div><span class="b">Cartazes evitados</span></div>
+      <div class="m"><div class="l">CO₂ evitado</div><div class="v"><span id="co2">0</span><small>kg</small></div><span class="b">Pegada reduzida</span></div>
+      <div class="m"><div class="l">Economia financeira</div><div class="v"><small style="margin:0 4px 0 0">R$</small><span id="money">0</span></div><span class="b">Papel, tinta e mão de obra</span></div>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+
+  <!-- ============ COLUNA DIREITA: E-PAPER ============ -->
+  <div class="col right">
+    <div class="device" role="img" aria-label="Simulação do Samsung E-Paper Color">
+      <div class="epaper" id="epaper"><div class="poster" id="poster"></div></div>
+      <span class="brand">SAMSUNG</span>
+    </div>
+    <p class="note">A imagem permanece na tela sem alimentação até o próximo gatilho.</p>
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <span class="ver">EcoSync v2.5</span>
+  <a href="#">Suporte VXT</a><a href="#">Documentação</a><a href="#">Status da nuvem</a><a href="#">Privacidade</a>
+  <span class="cp">© 2026 Samsung Electronics. Protótipo Hackathon B2B.</span>
+</footer>
+
+<script>
+/* =====================================================
+   DADOS 100% MOCKADOS (sem APIs externas, sem chaves)
+   ===================================================== */
+const MOCK = {
+  units:{
+    sp: {name:'Loja Matriz',  city:'São Paulo/SP',       temp:31, cond:'Ensolarado', ico:'☀️', stock:'Estoque normal'},
+    rj: {name:'Filial 01',    city:'Rio de Janeiro/RJ',  temp:36, cond:'Ensolarado', ico:'🌞', stock:'Estoque normal'},
+    cwb:{name:'Filial 02',    city:'Curitiba/PR',        temp:14, cond:'Chuvoso',    ico:'🌧️', stock:'Estoque normal'}
+  },
+  // Imagens Unsplash (URLs mockadas); se falharem, o card usa emoji + cor
+  campaigns:{
+    hot:{label:'Dia quente', chip:'Dia quente', emoji:'🍦', off:'Sorvetes a partir de R$ 4,99', acc:'#d6336c', qr:'vxt/hot',
+      t1:t=>`Calor de ${t}°C?`, t2:'Refresque-se com Sorvetes Kibon!', sub:'Sorvetes, picolés e hidratação no corredor 6.',
+      img:'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=800&q=70'},
+    mild:{label:'Clima ameno', chip:'Ofertas do dia', emoji:'🥑', off:'Hortifruti -15%', acc:'#2b8a3e', qr:'vxt/mild',
+      t1:t=>`${t}°C hoje.`, t2:'Ofertas do Dia: Hortifruti fresquinho', sub:'Frutas, legumes e verduras selecionados.',
+      img:'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&q=70'},
+    cold:{label:'Dia frio', chip:'Dia frio', emoji:'🍷', off:'Kit inverno R$ 39,90', acc:'#7b1e3a', qr:'vxt/cold',
+      t1:t=>`Só ${t}°C lá fora?`, t2:'Vinhos, chocolates e cafés', sub:'Monte seu kit e aqueça a tarde.',
+      img:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=70'},
+    urgent:{label:'Promoção relâmpago', chip:'Lote com vencimento próximo', emoji:'⏰', off:'40% OFF', acc:'#d6291f', qr:'vxt/flash',
+      t1:()=>'Promoção Relâmpago', t2:'40% OFF hoje!', sub:'Lote próximo ao vencimento. Leve hoje, evite o desperdício.',
+      img:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=70'}
+  },
+  // Morfologias "aprendidas" (simulação)
+  morph:{
+    samsung:{name:'AppWeek Samsung', bg:'#0a1233', fg:'#ffffff', acc:'#4a90ff', on:'#fff', rad:'18px', font:'"SamsungOne","Inter",Arial,sans-serif',
+             sw:['#0a1233','#1428a0','#4a90ff','#ffffff'], type:'Sans geométrica (light + bold)', grid:'Assimétrico, texto à esquerda', style:'Vidro, cantos 18px, botões pílula'},
+    verde: {name:'Varejo Verde', bg:'#0f3d2e', fg:'#f4ffe8', acc:'#b6e34a', on:'#0f3d2e', rad:'6px', font:'"Roboto","Helvetica Neue",Arial,sans-serif',
+             sw:['#0f3d2e','#1f7a54','#b6e34a','#f4ffe8'], type:'Sans humanista, títulos em peso 800', grid:'Coluna única', style:'Cantos retos, contraste alto'}
+  },
+  stats:{baseSheets:1240, co2PerSheet:0.012, moneyPerSheet:0.85}
+};
+const mockFetchWeather = key => new Promise(res=>setTimeout(()=>res({...MOCK.units[key]}),450)); // simula latência
+
+/* ========== ESTADO E UTILITÁRIOS ========== */
+const $ = id => document.getElementById(id);
+const state = {unit:'sp', temp:31, morph:null, sheets:MOCK.stats.baseSheets, last:''};
+const fmt = (n,d=0)=>n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ========== QR CODE SIMULADO ========== */
+function makeQR(seed,color){
+  const N=25;let s=[...seed].reduce((h,c)=>Math.imul(h^c.charCodeAt(0),16777619)>>>0,2166136261)||1,r='';
+  const rnd=()=>{s^=s<<13;s^=s>>>17;s^=s<<5;s>>>=0;return s/4294967295};
+  const fin=(x,y)=>(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(!fin(x,y)&&rnd()>.5)r+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${rnd()>.75?'#000':color}"/>`;
+  const F=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" fill="${color}"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#000"/>`;
+  return `<svg viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges" aria-label="QR Code">${r}${F(0,0)}${F(N-7,0)}${F(0,N-7)}</svg>`;
+}
+
+/* ========== MÉTRICAS ESG ========== */
+function renderStats(){
+  $('paper').textContent=fmt(state.sheets);
+  $('co2').textContent=fmt(state.sheets*MOCK.stats.co2PerSheet,2);
+  $('money').textContent=fmt(state.sheets*MOCK.stats.moneyPerSheet,2);
+}
+setInterval(()=>{state.sheets++;renderStats()},5000);
+
+/* ========== REGRA DE DECISÃO ========== */
+function pickCampaign(){
+  if($('expiry').checked) return 'urgent';   // estoque > clima
+  const t=state.temp; return t>28?'hot':t<18?'cold':'mild';
+}
+
+/* ========== RENDER DO E-PAPER (com refresh de pigmento) ========== */
+function renderPoster(){
+  const key=pickCampaign(), c=MOCK.campaigns[key], u=MOCK.units[state.unit], m=state.morph, t=state.temp;
+  const sig=[key,t,state.unit,m&&m.name,$('expiry').checked].join('|');
+  if(sig===state.last) return; state.last=sig;
+
+  const ep=$('epaper'); ep.classList.remove('refresh'); void ep.offsetWidth; ep.classList.add('refresh');
+
+  // consumo: pico só durante o refresh
+  $('watts').textContent='2.40';$('powerCard').classList.add('busy');$('pBadge').textContent='Atualizando pigmentos';
+  clearTimeout(renderPoster.tm);
+  renderPoster.tm=setTimeout(()=>{$('watts').textContent='0.00';$('powerCard').classList.remove('busy');$('pBadge').textContent='Tinta eletrônica estática'},600);
+
+  setTimeout(()=>{ // troca o conteúdo no meio da animação
+    // Morfologia aplicada: tokens da marca; caso contrário, layout padrão claro
+    const P=m?{bg:m.bg,fg:m.fg,acc:m.acc,on:m.on,rad:m.rad,font:m.font}
+             :{bg:'#fdfcf8',fg:'#000',acc:c.acc,on:'#fff',rad:'10px',font:'Arial,sans-serif'};
+    const po=$('poster');
+    po.style.cssText=`--pbg:${P.bg};--pfg:${P.fg};--pacc:${P.acc};--pon:${P.on};--prad:${P.rad};--pfont:${P.font}`;
+    po.innerHTML=`
+      <span class="p-chip">${c.chip}</span>
+      <h3 class="p-title"><span class="l">${c.t1(t)}</span>${c.t2}</h3>
+      <p class="p-sub">${c.sub}</p>
+      <div class="p-img"><span class="em">${c.emoji}</span>
+        <img src="${c.img}" alt="" onerror="this.remove()"><span class="off">${c.off}</span></div>
+      <div class="p-foot">
+        <div class="p-tag">Layout Autônomo • ${m?'Morfologia de Marca Aplicada':'Morfologia padrão'} • Local: ${u.city}</div>
+        <div class="qr">${makeQR(c.qr+state.unit,m?'#1428a0':'#000')}</div>
+      </div>`;
+  },150);
+
+  state.sheets+=3;renderStats();
+  const h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  $('log').textContent=`${h} — ${u.city}: campanha "${c.label}" enviada ao E-Paper. 3 cartazes impressos evitados.`;
+}
+
+/* ========== CLIMA MOCKADO POR UNIDADE ========== */
+async function loadUnit(key){
+  state.unit=key;
+  $('wCond').textContent='Consultando API de clima (mock)...';
+  const w=await mockFetchWeather(key);              // "resposta" da API
+  state.temp=w.temp; $('temp').value=w.temp;
+  $('wIco').textContent=w.ico; $('wCond').textContent=`${w.cond} • ${w.city}`; $('wStock').textContent=w.stock;
+  updateWeatherUI(); renderPoster();                // atualização 100% autônoma
+}
+function updateWeatherUI(){
+  $('wT').textContent=state.temp;
+  $('rule').textContent='Regra: '+MOCK.campaigns[pickCampaign()].label;
+}
+
+/* ========== IA DE MORFOLOGIA (SIMULADA) ========== */
+function trainBrand(presetKey,fileName){
+  const m=MOCK.morph[presetKey]; const steps=['Analisando paleta de cores...','Analisando tipografia...','Analisando grid e composição...','Analisando estilo da marca...'];
+  const bar=$('bar'),fill=bar.firstElementChild;bar.style.display='block';fill.style.width='0';$('tokens').style.display='none';
+  let i=0;
+  const tick=()=>{
+    if(i<steps.length){$('ai').innerHTML=`<span>${steps[i]}${fileName?` <em style="color:var(--muted)">(${fileName})</em>`:''}</span>`;fill.style.width=((i+1)/steps.length*100)+'%';i++;setTimeout(tick,650)}
+    else{
+      state.morph=m; $('ai').innerHTML='<span class="badge-ok">✓ Morfologia Aplicada com Sucesso</span>';
+      const tk=$('tokens');tk.style.display='flex';
+      tk.innerHTML=`<span>${m.sw.map(c=>`<i class="sw-c" style="background:${c}"></i>`).join('')}</span><span>Tipografia: ${m.type}</span><span>Grid: ${m.grid}</span><span>Estilo: ${m.style}</span>`;
+      setTimeout(()=>bar.style.display='none',500);
+      renderPoster();
+    }
+  };
+  tick();
+}
+
+/* ========== EVENTOS ========== */
+Object.entries(MOCK.units).forEach(([k,u])=>$('unit').add(new Option(`${u.name} - ${u.city}`,k)));
+$('unit').onchange=e=>loadUnit(e.target.value);
+$('temp').oninput=e=>{state.temp=+e.target.value;updateWeatherUI();renderPoster()};
+$('expiry').onchange=()=>{updateWeatherUI();renderPoster()};
+$('pick').onclick=()=>$('file').click();
+$('file').onchange=e=>{if(e.target.files.length)trainBrand('samsung',e.target.files[0].name)};
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>trainBrand(b.dataset.p));
+const drop=$('drop');
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)trainBrand('samsung',f.name)});
+
+renderStats(); loadUnit('sp');
+</script>
+</body>
+</html>
